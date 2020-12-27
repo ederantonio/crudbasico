@@ -1,31 +1,19 @@
 <?php
-include ('./conexion/conexion.php');
-
- 
+include ('./conexion/conexion.php'); 
 $nombre= $_POST['nombre'];/*para proteger los campos*/
 $marca=$_POST['marca']; 
 $modelo= $_POST['modelo']; 
 $precio= $_POST['precio']; 
 $cantidad= $_POST['cantidad'];   
-//echo json_encode("<script>console.log('$nombre');</script>"); // asi y regresarlo por ajax js para ver el resultado
- 
+echo ("<script>console.log('$nombre');</script>"); // asi y regresarlo por ajax js para ver el resultado
 
-if (!isset($nombre)||!isset($marca)||!isset($modelo)||!isset($precio)||!isset($cantidad))/*si van vacios los campos mando el letrero*/
-{
-	echo '<span>Por favor complete todos los campos.</span>';
-}
-else{
-	$consulta="INSERT INTO productos VALUES ('".$nombre."','".$marca."','".$modelo."','".$precio."','".$cantidad."')";
-	mysqli_query($conexion, $consulta);
+$insertar="INSERT INTO productos (nombre,marca,modelo,precio,cantidad) VALUES ('$nombre','$marca','$modelo','$precio','$cantidad')"; 
+$ejecutar= mysqli_query($conexion,$insertar);
 
-		if($consulta)
-		{            
-			echo ("<span>Guardado Correctamente</span>");
-		}
-		else
-		{
-			echo "<span>No se pudieron guardar los datos</span>";
-		}
-}
+if(!$ejecutar){
+    printf("Error en ejecución: %s\n", mysqli_error($conexion));
+}else{
+    echo "El vendedor de registro exitosamente en la BD";
+}  
 
 ?>
