@@ -3,14 +3,15 @@
 $conexion = mysqli_connect('localhost','root','','crudequipos'); 
 
 /* comprobar la conexión */
-if (mysqli_connect_errno()) {//Devuelve el código de error de la última llamada
-    printf("Falló la conexión: %s\n", mysqli_connect_error());//mysqli_connect_error devuelve una cadena con la descripcion del ultimo error
-    exit();
+if (!$conexion) {
+    echo "Error: Unable to connect to MySQL." . PHP_EOL;
+    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
+    echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+    exit;
 }
 
-/* cambiar el conjunto de caracteres a utf8 */
-if (!mysqli_set_charset($conexion, "utf8")) {
-    printf("Error cargando el conjunto de caracteres utf8: %s\n", mysqli_error($conexion));
-    exit();
-} 
+// echo "Success: A proper connection to MySQL was made! The my_db database is great." . PHP_EOL;
+// echo "Host information: " . mysqli_get_host_info($conexion) . PHP_EOL;
+
+ 
 ?>
