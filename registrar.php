@@ -9,10 +9,25 @@ $cantidad= $_POST['cantidad'];
 $query="INSERT INTO productos (nombre,marca,modelo,precio,cantidad) VALUES ('$nombre','$marca','$modelo','$precio','$cantidad')"; 
 $result= mysqli_query($conexion,$query);
 
-if(!$result){
+$query2 = "SELECT * FROM productos";
+$result2 = mysqli_query($conexion,$query2);
+
+if(!$result || !$result2){
     printf("Error en ejecución: %s\n", mysqli_error($conexion));
 }else{
-    echo "Se registro exitosamente en la BD";
+   $json = array();
+   while($fila=mysqli_fetch_array($result2)){
+        $json[]=array(
+            'id'=>$fila['id'],
+            'nombre'=>$fila['nombre'],
+            'marca'=>$fila['marca'],
+            'modelo'=>$fila['modelo'],
+            'cantidad'=>$fila['cantidad'],
+            'precio'=>$fila['precio'] 
+        );
+   }
+   $json_string = json_encode($json);
+   echo $json_string;
 }  
 
 ?>
