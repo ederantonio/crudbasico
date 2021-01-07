@@ -7,6 +7,7 @@ $nombre = $_POST['nombre'];
 $marca = $_POST['marca'];
 $modelo = $_POST['modelo'];
 $cantidad = $_POST['cantidad'];
+ 
 $precio = $_POST['precio'];
 
 

@@ -34,7 +34,7 @@ $(() =>{
                     </div>
                     <div class="form-group col-md-6">
                         <label for="modelo">Precio</label>
-                        <input type="text" class="form-control" name="regprecio" id="regprecios"> 
+                        <input type="text" class="form-control" name="regprecio" id="regprecios" > 
                     </div> 
                 </div>
                 <div class="form-group d-flex justify-content-center" id="respuesta-registro">
@@ -88,7 +88,7 @@ $(() =>{
                 </div>
                 <div class="form-group col-md-6">
                     <label for="modelo">Precio</label>
-                    <input type="text" class="form-control" name="precio" id="precios" > 
+                    <input type="text" class="form-control" name="precio" id="precios" disabled> 
                 </div> 
             </div>
             <div class="form-group d-flex justify-content-center" id="respuesta-modificar">
@@ -129,9 +129,9 @@ $(() =>{
         </div>
     </form> 
     `);
-      
+    
 });  
-
+ 
 
 /* ------------/ Consulta /------------*/
 $(function() {// Se traen todos los datos y se colocan en la tabla al iniciar
@@ -154,7 +154,7 @@ $(function() {// Se traen todos los datos y se colocan en la tabla al iniciar
                 <td>${result[a].marca}</td>
                 <td>${result[a].modelo}</td>
                 <td>${result[a].cantidad}</td>
-                <td>$${result[a].precio}.00</td> 
+                <td>$${result[a].precio}</td> 
                 <td class="botones">
                     <button type="button"   class="btn btn-primary editar" data-toggle="modal" data-target="#exampleModal">
                     Editar
@@ -181,7 +181,7 @@ $(document).on('click','.editar',function(e){ // Una página no se puede manipul
     let  cantidad = fila.find('td:eq(4)').text();
     let precio = fila.find('td:eq(5)').text(); 
     // let formatoprecio = precio.replace("$","").substring(0,precio.indexOf(".")-1)  ;
-    let formatoprecio = precio.replace("$","").substring(0,precio.indexOf(".")-1);
+    let formatoprecio = precio.replace("$","");
     // console.log(formatoprecio);
     $("#ids").val(id);// En cada input se coloca el valor obtenido al seleccionar el registro
     $("#nombres").val(nombre);
@@ -225,7 +225,7 @@ $(document).on('click','.editar',function(e){ // Una página no se puede manipul
                         <td>${resultados[e].marca}</td>
                         <td>${resultados[e].modelo}</td>
                         <td>${resultados[e].cantidad}</td>
-                        <td>$${resultados[e].precio}.00</td> 
+                        <td>$${resultados[e].precio}</td> 
                         <td>
                         <button type="button"   class="btn btn-primary editar" data-toggle="modal" data-target="#exampleModal">
                         Editar
@@ -353,7 +353,7 @@ $(function() { // El boton debe de estar dentro del form y de tipo submit para q
                         <td>${resultado[b].marca}</td>
                         <td>${resultado[b].modelo}</td>
                         <td>${resultado[b].cantidad}</td>
-                        <td>${resultado[b].precio}</td> 
+                        <td>$${resultado[b].precio}</td> 
                         <td class="botones">
                         <button type="button"   class="btn btn-primary editar" data-toggle="modal" data-target="#exampleModal">
                         Editar
