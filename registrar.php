@@ -4,9 +4,12 @@ $nombre= $_POST['nombre'];/*para proteger los campos*/
 $marca=$_POST['marca']; 
 $modelo= $_POST['modelo']; 
 $precio= $_POST['precio']; 
+$operacion = $precio * 1.16;
+// echo "<script>console.log('$operacion')</script>";
+// $precioconiva = number_format($operacion, 2);
 $cantidad= $_POST['cantidad'];   
 //echo ("<script>jconsole.color.yellow.log('$precio');</script>"); 
-$query="INSERT INTO productos (nombre,marca,modelo,precio,cantidad) VALUES ('$nombre','$marca','$modelo','$precio','$cantidad')"; 
+$query="INSERT INTO productos (nombre,marca,modelo,precio,cantidad) VALUES ('$nombre','$marca','$modelo','$operacion','$cantidad')"; 
 $result= mysqli_query($conexion,$query);
 
 $query2 = "SELECT * FROM productos";
@@ -23,7 +26,8 @@ if(!$result || !$result2){
             'marca'=>$fila['marca'],
             'modelo'=>$fila['modelo'],
             'cantidad'=>$fila['cantidad'],
-            'precio'=>$fila['precio'] 
+            'precio'=> $fila['precio']
+             
         );
    }
    $json_string = json_encode($json);

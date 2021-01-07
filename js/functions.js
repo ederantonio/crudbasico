@@ -140,11 +140,13 @@ $(function() {// Se traen todos los datos y se colocan en la tabla al iniciar
         method: 'POST',
         dataType:'json'
     }).done(result=>{  
+        console.log(result);
         var productos,op;
         // Tabla de productos
         for(var a=0; a<result.length;a++)// dependiendo del total de registros se van creando las filas y se van acumulando en productos
         {
-            op =  (result[a].precio * 1.16).toFixed(2); 
+              
+            // console.log(op);
             productos +=  `
             <tr>
                 <td>${result[a].id}</td>
@@ -152,7 +154,7 @@ $(function() {// Se traen todos los datos y se colocan en la tabla al iniciar
                 <td>${result[a].marca}</td>
                 <td>${result[a].modelo}</td>
                 <td>${result[a].cantidad}</td>
-                <td>$${op}</td> 
+                <td>$${result[a].precio}.00</td> 
                 <td class="botones">
                     <button type="button"   class="btn btn-primary editar" data-toggle="modal" data-target="#exampleModal">
                     Editar
@@ -178,12 +180,15 @@ $(document).on('click','.editar',function(e){ // Una página no se puede manipul
     let modelo = fila.find('td:eq(3)').text();
     let  cantidad = fila.find('td:eq(4)').text();
     let precio = fila.find('td:eq(5)').text(); 
+    // let formatoprecio = precio.replace("$","").substring(0,precio.indexOf(".")-1)  ;
+    let formatoprecio = precio.replace("$","").substring(0,precio.indexOf(".")-1);
+    // console.log(formatoprecio);
     $("#ids").val(id);// En cada input se coloca el valor obtenido al seleccionar el registro
     $("#nombres").val(nombre);
     $("#marcas").val(marca);
     $("#modelos").val(modelo);
     $("#cantidades").val(cantidad);
-    $("#precios").val(precio); 
+    $("#precios").val(formatoprecio); 
     $("#aceptar-modificar").click(()=>{ 
     // Se coloca un spiner
     $("#respuesta-modificar").html(`
@@ -196,8 +201,7 @@ $(document).on('click','.editar',function(e){ // Una página no se puede manipul
             method:'POST', 
             data:{id:$("#ids").val(),nombre:$("#nombres").val(),marca:$("#marcas").val(),modelo:$("#modelos").val(),cantidad:$("#cantidades").val(),precio:$("#precios").val()},
             dataType:'json',  
-        }).done(resultados=>{ 
-            
+        }).done(resultados=>{  
             $("#spiner").css("visibility","hidden");// se retira el spiner
             $("#aceptar-modificar").prop( "disabled", true );// Se desactiva el boton aceptar
             // Se muestra el letrero de exito
@@ -221,7 +225,7 @@ $(document).on('click','.editar',function(e){ // Una página no se puede manipul
                         <td>${resultados[e].marca}</td>
                         <td>${resultados[e].modelo}</td>
                         <td>${resultados[e].cantidad}</td>
-                        <td>${resultados[e].precio}</td> 
+                        <td>$${resultados[e].precio}.00</td> 
                         <td>
                         <button type="button"   class="btn btn-primary editar" data-toggle="modal" data-target="#exampleModal">
                         Editar
@@ -251,7 +255,7 @@ $(document).on('click','.eliminar',function(){
         method:'POST',
         data:{id:id},
         dataType:'json'
-    }).done(function(datas){ 
+    }).done(function(datas){  
         var datoseliminados=''; 
         for(var o=0;o<datas.length;o++){
             datoseliminados +=  `
@@ -290,41 +294,26 @@ $(function() { // El boton debe de estar dentro del form y de tipo submit para q
 
     $.validator.addMethod("solonumeros", function (value, element) {// solo acepta numeros
         return this.optional(element) || /^[0-9]*\.?[0-9]*$/.test(value);
+    }, ); 
+
+    $.validator.addMethod("sololetras", function (value, element) {// solo acepta numeros
+        return this.optional(element) || /^[a-zA-Z ]*$/.test(value);
     }, );
      
-    // $.validator.addMethod("numerosdecimales", function (value, element) {// Acepta 10 digitos antes del punto o coma y solo dos digitos despues del punto y coma
-    //     return this.optional(element) || /^[0-9]{1,10}([,.][0-9]{2,2})?$/.test(value);
-    // }, );
-      
 
    $.extend(jQuery.validator.messages, {
-    required: "<span style='color:#C95E81'>Este campo es obligatorio.</span>",
-    solonumeros:"<span style='color:#C95E81'>El campo debe tener solo numeros.</span>", 
-    // remote: "Por favor, rellena este campo.",
-    // email: "Por favor, escribe una dirección de correo válida",
-    // url: "Por favor, escribe una URL válida.",
-    // date: "Por favor, escribe una fecha válida.",
-    // dateISO: "Por favor, escribe una fecha (ISO) válida.",
-    // number: "Por favor, escribe un número entero válido.",
-    // digits: "Por favor, escribe sólo dígitos.",
-    // creditcard: "Por favor, escribe un número de tarjeta válido.",
-    // equalTo: "Por favor, escribe el mismo valor de nuevo.",
-    // accept: "Por favor, escribe un valor con una extensión aceptada.",
-    // maxlength: jQuery.validator.format("Por favor, no escribas más de {0} caracteres."),
-    // minlength: jQuery.validator.format("Por favor, no escribas menos de {0} caracteres."),
-    // rangelength: jQuery.validator.format("Por favor, escribe un valor entre {0} y {1} caracteres."),
-    // range: jQuery.validator.format("Por favor, escribe un valor entre {0} y {1}."),
-    // max: jQuery.validator.format("Por favor, escribe un valor menor o igual a {0}."),
-    // min: jQuery.validator.format("Por favor, escribe un valor mayor o igual a {0}.") 
+    required: "<span style='color:#C95E81'>Llenar campo.</span>",
+    solonumeros:"<span style='color:#C95E81'>Debe tener solo numeros.</span>", 
+    sololetras:"<span style='color:#C95E81'>Debe tener solo letras</span>" 
    });
       
     $("#formregistrar").validate({     
         rules: {
-            regnombre:{ required:true},// Para que no vaya en blanco
+            regnombre:{ required:true,sololetras:true},// Para que no vaya en blanco
             regmarca:{required:true},
             regmodelo:{required:true},
             regcantidad:{required:true,solonumeros:true},
-            regprecio:{required:true,numerosdecimales:true},
+            regprecio:{required:true,solonumeros:true},
              
         },
         
@@ -341,8 +330,7 @@ $(function() { // El boton debe de estar dentro del form y de tipo submit para q
                         modelo:$("#regmodelos").val(),cantidad:$("#regcantidades").val(),precio:$("#regprecios").val() 
                 },
                 dataType:'json'  
-            }).done(resultado=>{
-                console.log(resultado)
+            }).done(resultado=>{ 
                 var resultado = resultado;
                  $("#registrospiner").css("visibility","hidden");// Se oculta el spiner
                  // Se muestra el letrero

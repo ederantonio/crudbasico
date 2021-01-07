@@ -19,7 +19,9 @@ else{
             'marca'=>$row_prod['marca'],
             'modelo'=>$row_prod['modelo'],
             'cantidad'=>$row_prod['cantidad'],
-            'precio'=>$row_prod['precio']
+            // $operacion = $row_prod['precio'] * 1.16,
+            // $format_number = number_format($operacion, 2),
+            'precio'=> $row_prod['precio']
         );
     }
     $json_string_prod = json_encode($json_prod );

@@ -1,5 +1,7 @@
 <?php
 include ('./conexion/conexion.php');
+
+
 $id=$_POST['id'];
 $nombre = $_POST['nombre'];
 $marca = $_POST['marca'];
@@ -26,7 +28,9 @@ if(!$result || !$resultado){
             'marca'=> $rows['marca'],
             'modelo'=> $rows['modelo'],
             'cantidad'=> $rows['cantidad'],
-            'precio'=> $rows['precio']  
+            // $operacion = $rows['precio'] * 1.16,
+            // $format_number = number_format($operacion, 2),
+            'precio'=> $rows['precio'] 
         );
     }
     $json_string_tabla = json_encode($json_tabla);
