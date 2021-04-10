@@ -1,6 +1,7 @@
 <?php
 
-$conexion = mysqli_connect('localhost','root','','crudequipos'); 
+// $conexion = mysqli_connect('localhost','root','','crudequipos'); 
+$conexion = mysqli_connect('sql204.epizy.com','epiz_27778881','MUH6PmqQKXO','epiz_27778881_crudequipos');
 
 /* comprobar la conexión */
 if (!$conexion) {

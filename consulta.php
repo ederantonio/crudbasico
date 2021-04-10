@@ -6,6 +6,7 @@ $result = mysqli_query($conexion,$query);
 if(!$result){
     printf("Ha ocurrido un error",mysqli_error($conexion));
 }
+
 $json = array();// se declara el arreglo
 while($filaconsulta=mysqli_fetch_array($result)){
     $json[]=array(

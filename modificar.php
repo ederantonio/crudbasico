@@ -11,7 +11,7 @@ $cantidad = $_POST['cantidad'];
 $precio = $_POST['precio'];
 
 
-$query = "UPDATE PRODUCTOS SET nombre = '$nombre', marca = '$marca', modelo = '$modelo', cantidad = '$cantidad', precio = '$precio' WHERE id ='$id'";
+$query = "UPDATE productos SET nombre = '$nombre', marca = '$marca', modelo = '$modelo', cantidad = '$cantidad', precio = '$precio' WHERE id ='$id'";
 $result= mysqli_query($conexion,$query);
 $query_tabla = "SELECT * FROM productos";
 $resultado = mysqli_query($conexion,$query_tabla);
